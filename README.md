@@ -2,6 +2,8 @@
 
 Practice app for technical interviews: study sheets, hands-on workshops, AI mock interviews (text or voice) and a results dashboard. Runs on Gemma locally via Ollama, or on the Google AI Studio API.
 
+**Live demo: https://interview-prep-gilt-two.vercel.app** (create an account to try it)
+
 ![Landing page: a graded sample answer](docs/screenshots/landing.png)
 
 ## Screenshots
