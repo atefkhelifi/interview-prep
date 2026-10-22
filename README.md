@@ -2,6 +2,30 @@
 
 Practice app for technical interviews: study sheets, hands-on workshops, AI mock interviews (text or voice) and a results dashboard. Runs on Gemma locally via Ollama, or on the Google AI Studio API.
 
+![Landing page: a graded sample answer](docs/screenshots/landing.png)
+
+## Screenshots
+
+**Mock interview result**: overall score, summary, and each answer graded in the margin with feedback.
+
+![Mock interview result](docs/screenshots/interview.png)
+
+**Dashboard**: average score, topics to work on, score over time and average per tech.
+
+![Dashboard](docs/screenshots/dashboard.png)
+
+**Workshop**: solve a task in the editor; tests run in a sandbox and each failure shows what was expected.
+
+![Workshop with test results](docs/screenshots/workshop.png)
+
+**Study sheet**: key ideas, common questions and traps, with a section list on the side.
+
+![Study sheet](docs/screenshots/study.png)
+
+| Dark mode | Phone |
+|---|---|
+| ![Dashboard in dark mode](docs/screenshots/dashboard-dark.png) | <img src="docs/screenshots/mobile.png" alt="Interview result on a phone" width="300"> |
+
 ## Features
 
 - **Study sheets** — JS/TS + React, Angular, Python, Java/Spring, SQL, Node.js/Express, C#/.NET, Docker & Git: key ideas, common questions, traps.
