@@ -50,7 +50,7 @@ Set in `.env`:
 | Provider | Settings |
 |---|---|
 | Local (default) | `AI_PROVIDER=ollama`, `AI_MODEL=gemma3` — run `ollama pull gemma3` first. `gemma3:12b` grades much better if you have the RAM. |
-| Google AI Studio | `AI_PROVIDER=google`, `AI_MODEL=gemma-3-27b-it` (or a Gemini model), `GOOGLE_AI_API_KEY=...` |
+| Google AI Studio | `AI_PROVIDER=google`, `AI_MODEL=gemma-4-26b-a4b-it` (or `gemma-4-31b-it`, or a Gemini model), `GOOGLE_AI_API_KEY=...` |
 
 Check it answers: `npm run ai:check`.
 
@@ -78,6 +78,16 @@ docker pull mcr.microsoft.com/dotnet/sdk:10.0-alpine
 
 Then set `CODE_RUNNER=docker` in `.env` and restart (rebuild for `npm start`: workshop pages are prerendered). Without it, those tasks stay AI-review only. The tests run in the same process as the user's code, so a determined user could fake a pass; results are practice data. For a public deployment, run the app (and Docker) on a separate machine or VM.
 
+## Deploying to Vercel
+
+Live demo: https://interview-prep-gilt-two.vercel.app
+
+1. Create a Vercel project and add a **Turso** database from its Storage tab (it sets `TURSO_DATABASE_URL` and `TURSO_AUTH_TOKEN`). Locally the same code keeps using `dev.db`.
+2. Set `AI_PROVIDER=google`, `AI_MODEL`, `GOOGLE_AI_API_KEY` and `BETTER_AUTH_SECRET` (Ollama can't be reached from Vercel). `BETTER_AUTH_URL` defaults to the project's production domain.
+3. Deploy. The `vercel-build` script runs `scripts/db-deploy.ts`, which applies `prisma/migrations` to Turso (Prisma Migrate can't connect to Turso), then `next build`.
+
+Java / C# tests need Docker, so on Vercel those tasks are AI-review only. `.vercelignore` keeps local `.env` and `dev.db` out of uploads.
+
 ## Google login (optional)
 
 Set `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` (redirect URI `http://localhost:3000/api/auth/callback/google`). The button shows only when both are set.
@@ -93,6 +103,8 @@ Set `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` (redirect URI `http://localhost:
 | `src/lib/workshops.ts` | Workshop tasks, JS tests and SQL specs |
 | `src/lib/sql-check.ts` | Computes expected SQL rows on the server |
 | `src/lib/code-runner.ts` | Runs Java / C# tests in Docker |
+| `src/lib/db.ts` | Prisma client on libSQL (local file or Turso) |
+| `scripts/db-deploy.ts` | Applies migrations to Turso during the Vercel build |
 | `src/app/(app)/workshops/[slug]/sandbox.ts` | Browser sandbox for JS, Python, SQL |
 | `src/lib/stats.ts` | Dashboard numbers |
 | `src/lib/auth.ts` | Better Auth config, `requireUser()` |

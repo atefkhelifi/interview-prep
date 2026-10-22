@@ -9,6 +9,14 @@ import { prisma } from "./db";
 const googleEnabled = Boolean(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET);
 
 export const auth = betterAuth({
+  // BETTER_AUTH_URL wins; on Vercel, fall back to the project's production domain.
+  baseURL:
+    process.env.BETTER_AUTH_URL ??
+    (process.env.VERCEL_PROJECT_PRODUCTION_URL && `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`),
+  // A Vercel project answers on several domains (production aliases, this deployment's URL).
+  trustedOrigins: [process.env.VERCEL_PROJECT_PRODUCTION_URL, process.env.VERCEL_URL, process.env.VERCEL_BRANCH_URL]
+    .filter(Boolean)
+    .map((host) => `https://${host}`),
   database: prismaAdapter(prisma, { provider: "sqlite" }),
   emailAndPassword: { enabled: true, minPasswordLength: 8 },
   socialProviders: googleEnabled

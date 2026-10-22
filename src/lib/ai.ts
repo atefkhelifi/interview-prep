@@ -43,7 +43,7 @@ async function chatOllama(messages: ChatMessage[], opts: ChatOptions): Promise<s
 async function chatGoogle(messages: ChatMessage[], opts: ChatOptions): Promise<string> {
   const key = process.env.GOOGLE_AI_API_KEY;
   if (!key) throw new Error("GOOGLE_AI_API_KEY is not set");
-  const model = process.env.AI_MODEL ?? "gemma-3-27b-it";
+  const model = process.env.AI_MODEL ?? "gemma-4-26b-a4b-it";
 
   // Gemma on the API rejects system instructions, so fold system text into the first user turn.
   const system = messages.filter((m) => m.role === "system").map((m) => m.content).join("\n\n");
@@ -63,15 +63,20 @@ async function chatGoogle(messages: ChatMessage[], opts: ChatOptions): Promise<s
         contents,
         generationConfig: {
           temperature: opts.temperature ?? 0.7,
-          // Gemma does not support responseMimeType; chatJson strips fences instead.
-          ...(opts.json && !model.startsWith("gemma") && { responseMimeType: "application/json" }),
+          // Gemma 3 does not support responseMimeType; chatJson strips fences instead.
+          ...(opts.json && !model.startsWith("gemma-3") && { responseMimeType: "application/json" }),
         },
       }),
     },
   );
   if (!res.ok) throw new Error(`Google AI error ${res.status}: ${await res.text()}`);
   const data = (await res.json()) as {
-    candidates?: { content?: { parts?: { text?: string }[] } }[];
+    candidates?: { content?: { parts?: { text?: string; thought?: boolean }[] } }[];
   };
-  return data.candidates?.[0]?.content?.parts?.map((p) => p.text ?? "").join("") ?? "";
+  // Thinking models (Gemma 4, Gemini 2.5+) return their reasoning as `thought` parts: keep only the answer.
+  const parts = data.candidates?.[0]?.content?.parts ?? [];
+  return parts
+    .filter((p) => !p.thought)
+    .map((p) => p.text ?? "")
+    .join("");
 }

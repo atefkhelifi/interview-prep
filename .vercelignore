@@ -1,0 +1,16 @@
+# Local-only files: settings come from Vercel environment variables, data from Turso.
+.env
+.env.*
+!.env.example
+*.db
+*.db-journal
+.next
+docs/screenshots
+
+# local AI-assistant tooling
+.claude
+.agents
+.windsurf
+skills-lock.json
+AGENTS.md
+CLAUDE.md
