@@ -1,26 +1,298 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
+/* "Graded paper": blue ink is the candidate's writing and actions, red pen is the grader
+   (scores, feedback, errors). The left margin of every page is the grader's column. */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --paper: #fbfcfe;
+  --sheet: #ffffff;
+  --ink: #1b2a4a;
+  --ink-soft: #56617a;
+  --rule: #d5e1f1;
+  --margin: #eba7a7;
+  --pen: #c8102e;
+  --link: #1f3a8a;
+  --action: #1f3a8a;
+  --action-hover: #172c6b;
+  --on-action: #ffffff;
+
+  /* Chart tokens (one series in ink blue, validated on these surfaces) */
+  --chart-1: #2b4fa8;
+  --chart-track: #dbe5f4;
+  --chart-grid: #e3e9f2;
+  --chart-axis: #b9c3d3;
+  --chart-muted: #56617a;
+
+  /* Width of the grader's margin, left of the red line */
+  --gutter: 2.75rem;
+  /* Ruled-line spacing for writing areas */
+  --line: 2rem;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+@media (min-width: 768px) {
+  :root {
+    --gutter: 5rem;
+  }
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --paper: #0e1525;
+    --sheet: #141d31;
+    --ink: #e3e8f1;
+    --ink-soft: #9aa6bd;
+    --rule: #26324b;
+    --margin: #6e2a35;
+    --pen: #ff7a7a;
+    --link: #9db4ff;
+    --action: #3d5fd9;
+    --action-hover: #3251c4;
+    --on-action: #ffffff;
+
+    --chart-1: #8aa6f2;
+    --chart-track: #1f2b47;
+    --chart-grid: #212c44;
+    --chart-axis: #34415e;
+    --chart-muted: #9aa6bd;
   }
 }
 
+@theme inline {
+  --color-paper: var(--paper);
+  --color-sheet: var(--sheet);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-rule: var(--rule);
+  --color-margin: var(--margin);
+  --color-pen: var(--pen);
+  --color-link: var(--link);
+  --color-action: var(--action);
+  --color-background: var(--paper);
+  --color-foreground: var(--ink);
+  --color-chart-1: var(--chart-1);
+  --color-chart-track: var(--chart-track);
+  --color-chart-grid: var(--chart-grid);
+  --color-chart-axis: var(--chart-axis);
+  --color-chart-muted: var(--chart-muted);
+  --font-sans: var(--font-archivo);
+  --font-serif: var(--font-source-serif);
+  --font-hand: var(--font-kalam);
+  --font-mono: var(--font-geist-mono);
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-archivo), system-ui, sans-serif;
+}
+
+:focus-visible {
+  outline: 2px solid var(--action);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: color-mix(in oklab, var(--action) 22%, transparent);
+}
+
+@layer components {
+  /* Page body with the red margin line; .in-margin puts a mark in the grader's column of
+     the nearest positioned row. */
+  .sheet {
+    position: relative;
+    padding-left: var(--gutter);
+  }
+  .sheet::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: calc(var(--gutter) - 1rem);
+    border-left: 1.5px solid var(--margin);
+  }
+  .in-margin {
+    position: absolute;
+    left: calc(-1 * var(--gutter));
+    width: calc(var(--gutter) - 1.5rem);
+    display: flex;
+    justify-content: center;
+  }
+
+  .page-title {
+    font-size: 2.25rem;
+    line-height: 1.1;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .page-intro {
+    margin-top: 0.5rem;
+    max-width: 62ch;
+    font-family: var(--font-source-serif);
+    font-size: 1.125rem;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+  .section-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 4px;
+    background: var(--action);
+    color: var(--on-action);
+    padding: 0.55rem 1.1rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+  }
+  .btn:hover {
+    background: var(--action-hover);
+  }
+  .btn-line {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid var(--rule);
+    color: var(--ink);
+    padding: calc(0.55rem - 1px) 1.1rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+  }
+  .btn-line:hover {
+    border-color: var(--ink-soft);
+  }
+  .btn:disabled,
+  .btn-line:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+
+  .link {
+    color: var(--link);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+  .link:hover {
+    text-decoration-thickness: 2px;
+  }
+
+  /* Form fields are written on a line, like an exam form. */
+  .field {
+    width: 100%;
+    border: 0;
+    border-bottom: 1.5px solid var(--ink-soft);
+    border-radius: 0;
+    background: transparent;
+    padding: 0.4rem 0.1rem;
+    color: inherit;
+  }
+  .field:focus-visible {
+    outline: none;
+    border-bottom-color: var(--action);
+    box-shadow: 0 1.5px 0 var(--action);
+  }
+  .field option {
+    background: var(--sheet);
+    color: var(--ink);
+  }
+  .field-label {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--ink-soft);
+  }
+
+  /* Lined paper for places where the candidate writes. */
+  .ruled {
+    line-height: var(--line);
+    background-image: linear-gradient(to bottom, transparent calc(var(--line) - 1px), var(--rule) calc(var(--line) - 1px));
+    background-size: 100% var(--line);
+    background-attachment: local;
+  }
+
+  /* Red-pen marks: grades, feedback, errors. */
+  .pen {
+    color: var(--pen);
+  }
+  .pen-hand {
+    font-family: var(--font-kalam);
+    color: var(--pen);
+  }
+  .pen-score {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.1em;
+    color: var(--pen);
+    font-family: var(--font-kalam);
+    line-height: 1;
+    white-space: nowrap;
+  }
+  .pen-score-num {
+    position: relative;
+    padding: 0 0.32em;
+    font-weight: 700;
+  }
+  .pen-score-num svg {
+    position: absolute;
+    inset: -0.38em -0.12em -0.3em;
+    width: calc(100% + 0.24em);
+    height: calc(100% + 0.68em);
+    overflow: visible;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8px;
+    stroke-linecap: round;
+  }
+  .pen-score-max {
+    font-size: 0.5em;
+  }
+  /* The phone margin is too narrow for "/10"; the section text gives the scale. */
+  @media (max-width: 767px) {
+    .in-margin .pen-score-max {
+      display: none;
+    }
+  }
+}
+
+/* Prose (study sheets, task text, feedback) reads in serif, in the page's ink. */
+.prose {
+  --tw-prose-body: var(--ink);
+  --tw-prose-headings: var(--ink);
+  --tw-prose-lead: var(--ink-soft);
+  --tw-prose-links: var(--link);
+  --tw-prose-bold: var(--ink);
+  --tw-prose-counters: var(--ink-soft);
+  --tw-prose-bullets: var(--ink-soft);
+  --tw-prose-hr: var(--rule);
+  --tw-prose-quotes: var(--ink-soft);
+  --tw-prose-quote-borders: var(--margin);
+  --tw-prose-captions: var(--ink-soft);
+  --tw-prose-code: var(--ink);
+  --tw-prose-th-borders: var(--rule);
+  --tw-prose-td-borders: var(--rule);
+  font-family: var(--font-source-serif);
+  line-height: 1.7;
+}
+.prose.prose-pen {
+  --tw-prose-body: var(--pen);
+  --tw-prose-bold: var(--pen);
+  --tw-prose-bullets: var(--pen);
+  font-style: italic;
+}
+.prose :where(h1, h2, h3, h4, th) {
+  font-family: var(--font-archivo);
+  letter-spacing: -0.01em;
+}
+.prose :where(code):not(:where(pre code)) {
+  font-size: 0.85em;
+  background: color-mix(in oklab, var(--rule) 55%, transparent);
+  border-radius: 3px;
+  padding: 0.1em 0.3em;
 }

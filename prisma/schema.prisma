@@ -1,0 +1,124 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+// ---------- Auth (Better Auth core schema) ----------
+
+model User {
+  id            String    @id
+  name          String
+  email         String    @unique
+  emailVerified Boolean   @default(false)
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  sessions      Session[]
+  accounts      Account[]
+
+  interviews       Interview[]
+  workshopAttempts WorkshopAttempt[]
+
+  @@map("user")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([userId])
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+  @@map("verification")
+}
+
+// ---------- App ----------
+
+model Interview {
+  id            String     @id @default(cuid())
+  userId        String
+  user          User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tech          String // slug, e.g. "javascript"
+  level         String // "junior" | "mid" | "senior"
+  status        String     @default("active") // "active" | "done"
+  questionCount Int        @default(5)
+  overallScore  Int? // 0-100
+  summary       String?
+  createdAt     DateTime   @default(now())
+  finishedAt    DateTime?
+  questions     Question[]
+
+  @@index([userId, createdAt])
+}
+
+// One asked question and the candidate's answer to it.
+model Question {
+  id          String    @id @default(cuid())
+  interviewId String
+  interview   Interview @relation(fields: [interviewId], references: [id], onDelete: Cascade)
+  order       Int
+  topic       String
+  isFollowUp  Boolean   @default(false)
+  prompt      String
+  answer      String?
+  score       Int? // 0-10
+  feedback    String?
+  createdAt   DateTime  @default(now())
+
+  @@unique([interviewId, order])
+}
+
+model WorkshopAttempt {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tech      String
+  workshop  String // workshop slug
+  code      String
+  passed    Boolean
+  review    String?
+  createdAt DateTime @default(now())
+
+  @@index([userId, createdAt])
+}
