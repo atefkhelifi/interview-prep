@@ -24,6 +24,8 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run lint
+      # PageProps/LayoutProps are generated into the (ignored) .next folder
+      - run: npx next typegen
       - run: npx tsc --noEmit
 
   deploy:
