@@ -35,6 +35,7 @@ Practice app for technical interviews: study sheets, hands-on workshops, AI mock
 - **Workshops** — 27 tasks in a Monaco editor. JavaScript/Node and Python tasks run tests and SQL tasks run on SQLite (sql.js) in a browser sandbox; Java and C# tests run in Docker on the server (optional); every task gets an AI code review.
 - **Dashboard** — average score, score over time, average per tech, weak topics linked to the study sheets.
 - **Accounts** — email/password, optional Google login.
+- **English / French** — the whole interface, plus AI questions, grading and reviews. Picked from the browser language, switchable in the header. Study sheets and workshop tasks are in English.
 
 ## Setup
 
@@ -107,10 +108,11 @@ Set `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` (redirect URI `http://localhost:
 | `src/lib/code-runner.ts` | Runs Java / C# tests in Docker |
 | `src/lib/db.ts` | Prisma client on libSQL (local file or Turso) |
 | `scripts/db-deploy.ts` | Applies migrations to Turso during the Vercel build |
-| `src/app/(app)/workshops/[slug]/sandbox.ts` | Browser sandbox for JS, Python, SQL |
+| `src/app/[lang]/(app)/workshops/[slug]/sandbox.ts` | Browser sandbox for JS, Python, SQL |
 | `src/lib/stats.ts` | Dashboard numbers |
 | `src/lib/auth.ts` | Better Auth config, `requireUser()` |
-| `src/proxy.ts` | Redirects signed-out visitors to `/login` |
+| `src/proxy.ts` | Picks the language (cookie, then browser) and serves `/en/...` or `/fr/...` at the same URL; sends signed-out visitors to `/login` |
+| `src/lib/i18n/` | English and French text (`en.ts`, `fr.ts`), locale detection |
 | `content/study/*.md` | Study sheets (each `##` heading = one topic) |
-| `src/app/(app)/` | Signed-in pages |
+| `src/app/[lang]/(app)/` | Signed-in pages (every page is prerendered once per language) |
 | `prisma/schema.prisma` | Data model |

@@ -81,7 +81,8 @@ model Interview {
   user          User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   tech          String // slug, e.g. "javascript"
   level         String // "junior" | "mid" | "senior"
-  status        String     @default("active") // "active" | "done"
+  lang          String     @default("en") // language the AI writes in: "en" | "fr"
+  status       String     @default("active") // "active" | "done"
   questionCount Int        @default(5)
   overallScore  Int? // 0-100
   summary       String?
