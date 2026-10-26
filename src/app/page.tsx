@@ -50,6 +50,12 @@ export default function Home() {
           ))}
         </ul>
       </main>
+
+      <footer className="mx-auto w-full max-w-6xl px-4 pb-8 text-sm text-ink-soft">
+        <Link href="/privacy" className="link">
+          Privacy policy
+        </Link>
+      </footer>
     </>
   );
 }
