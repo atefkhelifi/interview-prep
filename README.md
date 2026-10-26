@@ -91,6 +91,15 @@ Live demo: https://interview-prep-gilt-two.vercel.app
 
 Java / C# tests need Docker, so on Vercel those tasks are AI-review only. `.vercelignore` keeps local `.env` and `dev.db` out of uploads.
 
+### Automatic deploys (GitHub Actions)
+
+`.github/workflows/deploy.yml` runs lint and type-check on every push and pull request, and deploys `main` to production when they pass. Add three repository secrets (GitHub → Settings → Secrets and variables → Actions):
+
+- `VERCEL_TOKEN`: create one at vercel.com/account/tokens
+- `VERCEL_ORG_ID` and `VERCEL_PROJECT_ID`: the `orgId` and `projectId` in `.vercel/project.json` (created by `vercel link`)
+
+If the Vercel project is also connected to this repo under Settings → Git, every push deploys twice; disconnect it there or keep only one of the two.
+
 ## Google login (optional)
 
 Set `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` (redirect URI `http://localhost:3000/api/auth/callback/google`). The button shows only when both are set.
