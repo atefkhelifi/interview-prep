@@ -2,7 +2,7 @@
 // All model output is validated with zod; one retry on bad JSON.
 
 import { z } from "zod";
-import { chatJson, type ChatMessage } from "./ai";
+import { askJson, type ChatMessage } from "./ai";
 import { getDict, type Locale } from "./i18n";
 import type { Tech } from "./techs";
 
@@ -26,18 +26,6 @@ function transcript(turns: Turn[]) {
   return turns
     .map((t, i) => `Q${i + 1} [${t.topic}]: ${t.prompt}\nA${i + 1}: ${t.answer ?? "(not answered yet)"}`)
     .join("\n\n");
-}
-
-async function askJson<T>(schema: z.ZodType<T>, messages: ChatMessage[], temperature = 0.7): Promise<T> {
-  let lastError: unknown;
-  for (let attempt = 0; attempt < 2; attempt++) {
-    try {
-      return schema.parse(await chatJson<unknown>(messages, { temperature }));
-    } catch (e) {
-      lastError = e;
-    }
-  }
-  throw lastError;
 }
 
 // Pick the topic asked least so far; break ties randomly so interviews vary.

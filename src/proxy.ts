@@ -2,7 +2,7 @@ import { getSessionCookie } from "better-auth/cookies";
 import { NextResponse, type NextRequest } from "next/server";
 import { isLocale, LOCALE_COOKIE, pickLocale } from "@/lib/i18n";
 
-const PROTECTED = ["/dashboard", "/study", "/workshops", "/interview"];
+const PROTECTED = ["/dashboard", "/study", "/hr", "/cv", "/workshops", "/interview"];
 
 // Pages live under app/[lang]. URLs stay unprefixed: the language comes from the cookie
 // (or the browser) and the request is rewritten to /en/... or /fr/....

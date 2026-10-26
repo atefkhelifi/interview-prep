@@ -80,7 +80,15 @@ export const en = {
     } as Record<string, string>,
   },
 
-  nav: { dashboard: "Dashboard", study: "Study", workshops: "Workshops", interview: "Mock interview", home: "Interview Prep, dashboard" },
+  nav: {
+    dashboard: "Dashboard",
+    study: "Study",
+    hr: "HR interview",
+    cv: "My pitch",
+    workshops: "Workshops",
+    interview: "Mock interview",
+    home: "Interview Prep, dashboard",
+  },
 
   dashboard: {
     title: "Dashboard",
@@ -127,6 +135,48 @@ export const en = {
     onThisSheet: "On this sheet",
     sections: "Sections",
     practice: "Practice this tech",
+  },
+
+  hr: {
+    title: "HR interview guide",
+    onThisPage: "On this page",
+    sections: "Sections",
+    toPitch: "Write my pitch from my CV",
+  },
+
+  cv: {
+    title: "My pitch",
+    intro:
+      "Give your CV and get a ready-to-say answer to “Tell me about yourself”, a 1–2 minute presentation script and a short profile description.",
+    file: "CV (PDF)",
+    fileHint: "PDF with selectable text, 4 MB max.",
+    paste: "Or paste your CV text",
+    placeholder: "Paste the content of your CV here…",
+    role: "Target role (optional)",
+    rolePlaceholder: "e.g. Junior Angular developer",
+    generate: "Write my pitch",
+    generating: "Reading your CV…",
+    privacy: "Your CV is sent to the AI model to write the texts. It is not saved.",
+    profile: "What the AI found in your CV",
+    skills: "Key skills",
+    highlights: "Highlights",
+    short: "30-second pitch",
+    shortHint: "Short answer to “Tell me about yourself.”",
+    long: "Presentation script (1–2 min)",
+    longHint: "Read it aloud a few times, then say it in your own words.",
+    about: "Profile description",
+    aboutHint: "For the summary at the top of your CV or your LinkedIn “About” section.",
+    copy: "Copy",
+    copied: "Copied",
+    readHr: "Read the HR interview guide",
+    errors: {
+      ai: "The AI model did not respond correctly. Check that it is running, then try again.",
+      empty: "Upload a PDF or paste your CV text.",
+      tooShort: "That looks too short for a CV. Add a few more lines.",
+      notPdf: "The file must be a PDF.",
+      tooBig: "The PDF is too big (4 MB max).",
+      unreadable: "No text found in this PDF (it may be a scanned image). Paste the text instead.",
+    },
   },
 
   interview: {

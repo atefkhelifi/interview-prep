@@ -1,6 +1,6 @@
 # Interview Prep
 
-Practice app for technical interviews: study sheets, hands-on workshops, AI mock interviews (text or voice) and a results dashboard. Runs on Gemma locally via Ollama, or on the Google AI Studio API.
+Practice app for technical interviews: study sheets, an HR interview guide, hands-on workshops, AI mock interviews (text or voice), a CV-based self-presentation writer and a results dashboard. Runs on Gemma locally via Ollama, or on the Google AI Studio API.
 
 **Live demo: https://interview-prep-gilt-two.vercel.app** (create an account to try it)
 
@@ -123,5 +123,7 @@ Set `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` (redirect URI `http://localhost:
 | `src/proxy.ts` | Picks the language (cookie, then browser) and serves `/en/...` or `/fr/...` at the same URL; sends signed-out visitors to `/login` |
 | `src/lib/i18n/` | English and French text (`en.ts`, `fr.ts`), locale detection |
 | `content/study/*.md` | Study sheets (each `##` heading = one topic) |
+| `content/hr/{en,fr}.md` | HR interview guide, one file per language |
+| `src/lib/pitch.ts` | `/cv` page: PDF text extraction (unpdf) and AI-written pitch; the CV is not stored |
 | `src/app/[lang]/(app)/` | Signed-in pages (every page is prerendered once per language) |
 | `prisma/schema.prisma` | Data model |

@@ -80,6 +80,8 @@ export const fr: Dict = {
   nav: {
     dashboard: "Tableau de bord",
     study: "Fiches",
+    hr: "Entretien RH",
+    cv: "Mon pitch",
     workshops: "Ateliers",
     interview: "Entretien blanc",
     home: "Interview Prep, tableau de bord",
@@ -129,6 +131,48 @@ export const fr: Dict = {
     onThisSheet: "Sur cette fiche",
     sections: "Sections",
     practice: "S'entraîner sur cette techno",
+  },
+
+  hr: {
+    title: "Guide de l'entretien RH",
+    onThisPage: "Sur cette page",
+    sections: "Sections",
+    toPitch: "Écrire mon pitch à partir de mon CV",
+  },
+
+  cv: {
+    title: "Mon pitch",
+    intro:
+      "Donnez votre CV et obtenez une réponse prête à dire à « Présentez-vous », un script de présentation de 1 à 2 minutes et une courte description de profil.",
+    file: "CV (PDF)",
+    fileHint: "PDF avec du texte sélectionnable, 4 Mo maximum.",
+    paste: "Ou collez le texte de votre CV",
+    placeholder: "Collez ici le contenu de votre CV…",
+    role: "Poste visé (facultatif)",
+    rolePlaceholder: "ex. Développeur Angular junior",
+    generate: "Écrire mon pitch",
+    generating: "Lecture de votre CV…",
+    privacy: "Votre CV est envoyé au modèle d'IA pour écrire les textes. Il n'est pas enregistré.",
+    profile: "Ce que l'IA a trouvé dans votre CV",
+    skills: "Compétences clés",
+    highlights: "Points forts",
+    short: "Pitch de 30 secondes",
+    shortHint: "Réponse courte à « Présentez-vous. »",
+    long: "Script de présentation (1 à 2 min)",
+    longHint: "Lisez-le à voix haute plusieurs fois, puis dites-le avec vos propres mots.",
+    about: "Description de profil",
+    aboutHint: "Pour le résumé en haut de votre CV ou la section « Infos » de LinkedIn.",
+    copy: "Copier",
+    copied: "Copié",
+    readHr: "Lire le guide de l'entretien RH",
+    errors: {
+      ai: "Le modèle d'IA n'a pas répondu correctement. Vérifiez qu'il tourne, puis réessayez.",
+      empty: "Ajoutez un PDF ou collez le texte de votre CV.",
+      tooShort: "C'est un peu court pour un CV. Ajoutez quelques lignes.",
+      notPdf: "Le fichier doit être un PDF.",
+      tooBig: "Le PDF est trop lourd (4 Mo maximum).",
+      unreadable: "Aucun texte trouvé dans ce PDF (image scannée ?). Collez plutôt le texte.",
+    },
   },
 
   interview: {

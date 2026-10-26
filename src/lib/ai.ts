@@ -1,6 +1,8 @@
 // Model adapter: Gemma (or any model) via local Ollama, or Google AI Studio API.
 // Pick with AI_PROVIDER=ollama|google and AI_MODEL.
 
+import type { z } from "zod";
+
 export type ChatMessage = { role: "system" | "user" | "assistant"; content: string };
 
 type ChatOptions = { json?: boolean; temperature?: number };
@@ -20,6 +22,19 @@ export async function chatJson<T>(messages: ChatMessage[], opts: Omit<ChatOption
   } catch {
     throw new Error(`Model did not return valid JSON: ${raw.slice(0, 200)}`);
   }
+}
+
+// chatJson + zod validation, with one retry when the model returns bad or off-schema JSON.
+export async function askJson<T>(schema: z.ZodType<T>, messages: ChatMessage[], temperature = 0.7): Promise<T> {
+  let lastError: unknown;
+  for (let attempt = 0; attempt < 2; attempt++) {
+    try {
+      return schema.parse(await chatJson<unknown>(messages, { temperature }));
+    } catch (e) {
+      lastError = e;
+    }
+  }
+  throw lastError;
 }
 
 async function chatOllama(messages: ChatMessage[], opts: ChatOptions): Promise<string> {
