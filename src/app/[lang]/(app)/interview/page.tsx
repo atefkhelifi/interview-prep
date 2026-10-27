@@ -29,6 +29,12 @@ export default async function InterviewPage({ searchParams }: PageProps<"/[lang]
       <p className="page-intro">{iv.intro}</p>
 
       <StartForm techs={techs.map(({ slug, name }) => ({ slug, name }))} defaultTech={defaultTech} />
+      <p className="mt-6 text-ink-soft">
+        {iv.live.or}{" "}
+        <Link href="/interview/live" className="link">
+          {iv.live.link}
+        </Link>
+      </p>
 
       <section className="mt-14">
         <h2 className="section-title">{iv.yours}</h2>

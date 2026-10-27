@@ -217,6 +217,35 @@ export const en = {
       network: "The speech service could not be reached. Check your internet connection.",
       other: (code: string) => `Speech recognition error: ${code}`,
     },
+    live: {
+      title: "Live interview",
+      intro:
+        "Talk with an AI interviewer in real time, like a phone call: it speaks, you answer out loud, and you can interrupt it. At the end, your answers are graded like a normal mock interview.",
+      or: "Prefer talking?",
+      link: "Try the live voice interview",
+      tips: "Use headphones so the interviewer doesn't hear itself, and allow the microphone when the browser asks. A session stops after 14 minutes.",
+      start: "Start live interview",
+      connecting: "Connecting…",
+      speaking: "Interviewer is speaking…",
+      listening: "Listening, go ahead",
+      muted: "Microphone muted",
+      mute: "Mute",
+      unmute: "Unmute",
+      end: "End and grade",
+      ended: "Interview ended",
+      grading: "Grading your answers…",
+      retry: "Try grading again",
+      transcript: "Transcript",
+      interviewer: "Interviewer",
+      you: "You",
+      unavailable:
+        "Live interviews need the Google AI provider: set AI_PROVIDER=google and GOOGLE_AI_API_KEY on the server.",
+      errors: {
+        mic: "Microphone access is blocked or no microphone was found. Allow it in the browser's site settings.",
+        connect: "Could not connect to the live interviewer. Try again.",
+        noAnswers: "No answers were recorded, so there is nothing to grade.",
+      },
+    },
     errors: {
       ai: "The AI model did not respond correctly. Check that it is running, then try again.",
       pick: "Pick a tech, level and number of questions.",
@@ -268,6 +297,8 @@ export const en = {
   // Headings inside AI-written Markdown, and the language instruction for the model.
   ai: {
     instruction: "",
+    // Live voice interviews: the language the interviewer speaks.
+    speak: "Speak English.",
     strengths: "Strengths",
     studyNext: "Study next",
     toImprove: "To improve",

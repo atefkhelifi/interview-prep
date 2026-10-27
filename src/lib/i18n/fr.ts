@@ -213,6 +213,35 @@ export const fr: Dict = {
       network: "Le service de reconnaissance vocale est injoignable. Vérifiez votre connexion internet.",
       other: (code) => `Erreur de reconnaissance vocale : ${code}`,
     },
+    live: {
+      title: "Entretien en direct",
+      intro:
+        "Parlez avec un recruteur IA en temps réel, comme au téléphone : il parle, vous répondez à voix haute, et vous pouvez l'interrompre. À la fin, vos réponses sont notées comme dans un entretien blanc classique.",
+      or: "Vous préférez parler ?",
+      link: "Essayer l'entretien vocal en direct",
+      tips: "Utilisez un casque ou des écouteurs pour que le recruteur ne s'entende pas lui-même, et autorisez le micro quand le navigateur le demande. Une session s'arrête au bout de 14 minutes.",
+      start: "Démarrer l'entretien en direct",
+      connecting: "Connexion…",
+      speaking: "Le recruteur parle…",
+      listening: "À vous, je vous écoute",
+      muted: "Micro coupé",
+      mute: "Couper le micro",
+      unmute: "Réactiver le micro",
+      end: "Terminer et noter",
+      ended: "Entretien terminé",
+      grading: "Notation de vos réponses…",
+      retry: "Relancer la notation",
+      transcript: "Transcription",
+      interviewer: "Recruteur",
+      you: "Vous",
+      unavailable:
+        "Les entretiens en direct nécessitent Google AI : définissez AI_PROVIDER=google et GOOGLE_AI_API_KEY sur le serveur.",
+      errors: {
+        mic: "L'accès au micro est bloqué ou aucun micro n'a été trouvé. Autorisez-le dans les paramètres du site du navigateur.",
+        connect: "Impossible de se connecter au recruteur en direct. Réessayez.",
+        noAnswers: "Aucune réponse n'a été enregistrée, il n'y a donc rien à noter.",
+      },
+    },
     errors: {
       ai: "Le modèle d'IA n'a pas répondu correctement. Vérifiez qu'il tourne, puis réessayez.",
       pick: "Choisissez une techno, un niveau et un nombre de questions.",
@@ -263,6 +292,7 @@ export const fr: Dict = {
   },
 
   ai: {
+    speak: 'Speak French, with the formal "vous". Keep technical terms in English where French developers usually do.',
     instruction:
       "Write everything for the candidate (questions, feedback, summaries, strengths, issues) in French, " +
       "with the formal \"vous\". Keep code, API names and technical terms in English where French developers usually do. " +
